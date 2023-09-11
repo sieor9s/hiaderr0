@@ -7,10 +7,10 @@ from telethon.tl.functions.users import GetFullUserRequest
 @loader.tds
 class WhoIsMod(loader.Module):
     """Получает информацию о пользователе."""
-    strings = {'name': 'hi'}
+    strings = {'name': 'WhoIs'}
 
     async def whoiscmd(self, message):
-        """Используй .hi <@ или реплай>; ничего"""
+        """Используй .whois <@ или реплай>; ничего"""
         args = utils.get_args_raw(message)
         reply = await message.get_reply_message()
 
@@ -34,12 +34,12 @@ class WhoIsMod(loader.Module):
 
 
 async def get_info(user, message):
-    """User details."""
+    """Подробная информация о пользователе."""
     uuser = user.user
 
     user_photos = await message.client(GetUserPhotosRequest(user_id=uuser.id,
                                                            offset=42, max_id=0, limit=100))
-    user_photos_count = "The user does not have an avatar."
+    user_photos_count = "У пользователя нет аватарки."
     try:
         user_photos_count = user_photos.count
     except:
@@ -57,7 +57,7 @@ async def get_info(user, message):
 
     photo = await message.client.download_profile_photo(user_id, str(user_id) + ".jpg", download_big=True)
 
-    caption = (f"<b>INFORMATION О USER:</b>\n\n"
+    caption = (f"<b>USER INFORMATION:</b>\n\n"
                f"<b>Name:</b> {first_name}\n"
                f"<b>Surname:</b> {last_name}\n"
                f"<b>Username:</b> {username}\n"
@@ -66,7 +66,7 @@ async def get_info(user, message):
                f"<b>Limited:</b> {restricted}\n"
                f"<b>Verified:</b> {verified}\n\n"
                f"<b>О himself:</b> \n<code>{user_bio}</code>\n\n"
-               f"<b>Number of avatars in the profile:</b> {user_photos_count}\n"
+               f"<b>Qty-in the avatar in the profile:</b> {user_photos_count}\n"
                f"<b>General chats:</b> {common_chat}\n"
                f"<b>Permalink:</b> <a href=\"tg://user?id={user_id}\">click</a>")
 
