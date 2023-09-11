@@ -27,7 +27,7 @@ class WhoIsMod(loader.Module):
         photo, caption = await get_info(user, message)
 
         # Add premium stickers or any other custom content to the caption here
-        premium_stickers = "🅰️🅰️🅰️"  # Replace with your premium stickers
+        premium_stickers = "🅰️🅰️"  # Replace with your premium stickers
         caption += f"\n<b>Premium Stickers:</b> {premium_stickers}"
 
         await message.client.send_file(message.chat_id, photo, caption=caption,
@@ -61,7 +61,7 @@ async def get_info(user, message):
     photo = await message.client.download_profile_photo(user_id, str(user_id) + ".jpg", download_big=True)
 
     # Add premium stickers or any other custom content to the caption here
-    premium_stickers = "🅰️🅰️🅰️"  # Replace with your premium stickers
+    premium_stickers = "🅰️🅰️"  # Replace with your premium stickers
     caption = (f"<b>ИНФОРМАЦИЯ О ПОЛЬЗОВАТЕЛЕ:</b>\n\n"
                f"<b>Имя:</b> {first_name}\n"
                f"<b>Фамилия:</b> {last_name}\n"
