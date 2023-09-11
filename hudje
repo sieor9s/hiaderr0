@@ -3,7 +3,6 @@ from .. import loader, utils
 from telethon.tl.functions.photos import GetUserPhotosRequest
 from telethon.tl.functions.users import GetFullUserRequest
 
-
 @loader.tds
 class WhoIsMod(loader.Module):
     """Получает информацию о пользователе."""
@@ -26,6 +25,10 @@ class WhoIsMod(loader.Module):
         
         user = await message.client(GetFullUserRequest(user.id))
         photo, caption = await get_info(user, message)
+
+        # Add premium stickers or any other custom content to the caption here
+        premium_stickers = "🌟🌟🌟"  # Replace with your premium stickers
+        caption += f"\n<b>Premium Stickers:</b> {premium_stickers}"
 
         await message.client.send_file(message.chat_id, photo, caption=caption,
                                        link_preview=False, reply_to=reply.id if reply else None)
@@ -57,17 +60,20 @@ async def get_info(user, message):
 
     photo = await message.client.download_profile_photo(user_id, str(user_id) + ".jpg", download_big=True)
 
-    caption = (f"<b>USER INFORMATION:</b>\n\n"
-               f"<b>Name:</b> {first_name}\n"
-               f"<b>Surname:</b> {last_name}\n"
-               f"<b>Username:</b> {username}\n"
+    # Add premium stickers or any other custom content to the caption here
+    premium_stickers = "🌟🌟🌟"  # Replace with your premium stickers
+    caption = (f"<b>ИНФОРМАЦИЯ О ПОЛЬЗОВАТЕЛЕ:</b>\n\n"
+               f"<b>Имя:</b> {first_name}\n"
+               f"<b>Фамилия:</b> {last_name}\n"
+               f"<b>Юзернейм:</b> {username}\n"
                f"<b>ID:</b> <code>{user_id}</code>\n"
-               f"<b>Boat:</b> {is_bot}\n"
-               f"<b>Limited:</b> {restricted}\n"
-               f"<b>Verified:</b> {verified}\n\n"
-               f"<b>О himself:</b> \n<code>{user_bio}</code>\n\n"
-               f"<b>Qty-in the avatar in the profile:</b> {user_photos_count}\n"
-               f"<b>General chats:</b> {common_chat}\n"
-               f"<b>Permalink:</b> <a href=\"tg://user?id={user_id}\">click</a>")
+               f"<b>Бот:</b> {is_bot}\n"
+               f"<b>Ограничен:</b> {restricted}\n"
+               f"<b>Верифицирован:</b> {verified}\n\n"
+               f"<b>О себе:</b> \n<code>{user_bio}</code>\n\n"
+               f"<b>Кол-во аватарок в профиле:</b> {user_photos_count}\n"
+               f"<b>Общие чаты:</b> {common_chat}\n"
+               f"<b>Пермалинк:</b> <a href=\"tg://user?id={user_id}\">клик</a>\n"
+               f"<b>Premium Stickers:</b> {premium_stickers}")
 
     return photo, caption
