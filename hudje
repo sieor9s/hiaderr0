@@ -94,14 +94,14 @@ async def fetch_info(replied_user, event):
     username = "@{}".format(username) if username else "У пользователя нет юзернейма."
     user_bio = "У пользователя нет информации о себе." if not user_bio else user_bio
 
-    caption = "<b>Account Information:</b>\n\n"
-    caption += f"<b>name :</b> {first_name}\n"
-    caption += f"<b>User:</b> {username}\n"
-    caption += f"<b>ID:</b> <code>{user_id}</code>\n"
-    caption += f"<b>bio :</b> \n<code>{user_bio}</code>\n\n"
+    caption = "<b> Account Information:</b>\n\n"
+    caption += f"<b> name :</b> {first_name}\n"
+    caption += f"<b> User:</b> {username}\n"
+    caption += f"<b>. ID:</b> <code>{user_id}</code>\n"
+    caption += f"<b>. bio :</b> \n<code>{user_bio}</code>\n\n"
     caption += f"<b>Number of avatars:</b> {replied_user_profile_photos_count}\n"
     caption += f"<b>Number of shared groups:</b> {common_chat}\n"
-    caption += f"<b>Account link :</b> "
+    caption += f"<b>.          Account link :</b> "
     caption += f"<a href=\"tg://user?id={user_id}\">Click</a>"
 
     return photo, caption
