@@ -89,11 +89,6 @@ async def fetch_info(replied_user, event):
     common_chat = replied_user.common_chats_count
     username = replied_user.user.username
     user_bio = replied_user.about
-    is_bot = replied_user.user.bot
-    if is_bot == False:
-        is_bot = "Нет"
-    else:
-        is_bot = "Да"
     restricted = replied_user.user.restricted
     if restricted == False:
         restricted = "Нет"
@@ -110,21 +105,17 @@ async def fetch_info(replied_user, event):
     username = "@{}".format(username) if username else "У пользователя нет юзернейма."
     user_bio = "У пользователя нет информации о себе." if not user_bio else user_bio
 
-    
-    caption += f"<b>Name:</b> {first_name}\n"
-    
-    
-    caption += f"<b>Username:</b> {username}\n"
-    
+    caption = "<b>ИНФОРМАЦИЯ О ПОЛЬЗОВАТЕЛЕ:</b>\n\n"
+    caption += f"<b>Имя:</b> {first_name}\n"
+    caption += f"<b>Фамилия:</b> {last_name}\n"
+    caption += f"<b>Юзернейм:</b> {username}\n"
     caption += f"<b>ID:</b> <code>{user_id}</code>\n"
-    
-    
-    
-    caption += f"<b>bio:</b> \n<code>{user_bio}</code>\n\n"
-    caption += f"<b>Number of photos:</b> {replied_user_profile_photos_count}\n"
-    
-    caption += f"<b>Number of shared groups:</b> {common_chat}\n"
-    caption += f"<b>Account link:</b> "
-    caption += f"<a href=\"tg://user?id={user_id}\">Click</a>"
+    caption += f"<b>Ограничен:</b> {restricted}\n"
+    caption += f"<b>Верифицирован:</b> {verified}\n\n"
+    caption += f"<b>О себе:</b> \n<code>{user_bio}</code>\n\n"
+    caption += f"<b>Кол-во аватарок в профиле:</b> {replied_user_profile_photos_count}\n"
+    caption += f"<b>Общие чаты:</b> {common_chat}\n"
+    caption += f"<b>Пермалинк:</b> "
+    caption += f"<a href=\"tg://user?id={user_id}\">клик</a>"
 
     return photo, caption
