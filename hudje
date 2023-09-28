@@ -88,7 +88,7 @@ async def fetch_info(replied_user, event):
     last_name = replied_user.user.last_name
     common_chat = replied_user.common_chats_count
     username = replied_user.user.username
-    user_bio = replied_user.about
+    user_bio =5172839378438849164>💻</emoji> <b>replied_user.about
     photo = await event.client.download_profile_photo(user_id, str(user_id) + ".jpg", download_big=True)
     first_name = first_name.replace("\u2060", "") if first_name else "Пользователь не указал имя."
     username = "@{}".format(username) if username else "У пользователя нет юзернейма."
