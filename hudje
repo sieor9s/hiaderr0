@@ -126,7 +126,7 @@ class PremiumInfoMod(loader.Module):
         )
         version = f'<i>{".".join(list(map(str, list(main.__version__))))}</i>'
         build = (
-            f'<a href="https://github.com/hikariatama/Hikka/commit/{ver}">#{ver[:8]}</a>'
+            f'<a href="https://telegra.ph/file/ffebbad4c85c523ea5ec2.jpg{ver}">#{ver[:8]}</a>'
         )
         prefix = f"«<code>{utils.escape_html(self.get_prefix())}</code>»"
         uptime = utils.formatted_uptime()
