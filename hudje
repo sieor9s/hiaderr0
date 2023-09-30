@@ -1,3 +1,7 @@
+
+__version__ = (1, 2, 0)
+
+
 import os
 
 import git
@@ -14,11 +18,47 @@ class PremiumInfoMod(loader.Module):
 
     def __init__(self):
         self.config = loader.ModuleConfig(
-            # ... (الإعدادات الأخرى هنا)
-
+            loader.ConfigValue(
+                "owner",
+                "<emoji document_id=6048540195995782913>👤</emoji>",
+                doc=lambda: "Owner custom emoji",
+            ),
+            loader.ConfigValue(
+                "version",
+                "<emoji document_id=6050744746874244036>ℹ️</emoji>",
+                doc=lambda: "Version custom emoji",
+            ),
+            loader.ConfigValue(
+                "uptime",
+                "<emoji document_id=5764783998945464490>⏲</emoji>",
+                doc=lambda: "Uptime custom emoji",
+            ),
+            loader.ConfigValue(
+                "prefix",
+                "<emoji document_id=6041858261970324774>💬</emoji>",
+                doc=lambda: "Prefix custom emoji",
+            ),
+            loader.ConfigValue(
+                "upd_r",
+                (
+                    "<emoji document_id=5776235811980709241>📊</emoji> Outdated version"
+                    " </b><code>.update</code><b>"
+                ),
+                doc=lambda: "Update required custom emoji",
+            ),
+            loader.ConfigValue(
+                "upd_to",
+                "<emoji document_id=5776414066008395465>📊</emoji> Actual version",
+                doc=lambda: "Actual required custom emoji",
+            ),
+            loader.ConfigValue(
+                "platform",
+                "<emoji document_id=5812064725516684683>🔵</emoji>",
+                doc=lambda: "Actual required custom emoji",
+            ),
             loader.ConfigValue(
                 "Media",
-                "https://telegra.ph/file/ffebbad4c85c523ea5ec2.jpg",
+                "https://te.legra.ph/file/f84fd6c49d4672bd74827.jpg",
                 lambda: "Your custom media",
             ),
         )
@@ -36,16 +76,49 @@ class PremiumInfoMod(loader.Module):
         reply = await message.get_reply_message()
 
         media = self.config["Media"]
-        # ... (الإعدادات الأخرى هنا)
+        owner = self.config["owner"]
+        vrs = self.config["version"]
+        upt = self.config["uptime"]
+        pref = self.config["prefix"]
+        upd_r = self.config["upd_r"]
+        upd_to = self.config["upd_to"]
+        platf = self.config["platform"]
 
-        # احتفظ بصورة الحساب هنا
-        user_photo = await self._client.download_profile_photo(self._me.id, file="user_photo.jpg")
+        ver = utils.get_git_hash() or "Unknown"
+        try:
+            repo = git.Repo()
+            diff = repo.git.log(["HEAD..origin/master", "--oneline"])
+            upd = f"{upd_r}" if diff else f"{upd_to}"
+        except Exception:
+            upd = ""
 
         me = (
             "<b><a"
             f' href="tg://user?id={self._me.id}">{utils.escape_html(get_display_name(self._me))}</a></b>'
         )
-        # ... (بقية الكود هنا)
+        version = f'<i>{".".join(list(map(str, list(main.__version__))))}</i>'
+        build = (
+            f'<a href="https://github.com/hikariatama/Hikka/commit/{ver}">#{ver[:8]}</a>'
+        )
+        prefix = f"«<code>{utils.escape_html(self.get_prefix())}</code>»"
+        uptime = utils.formatted_uptime()
+        platform = (
+            f"{platf} Lavhost"
+            if "LAVHOST" in os.environ
+            else (
+                f"{platf} VDS{platf} Termux"
+                if "com.termux" in os.environ.get("PREFIX", "")
+                else (
+                    f"{platf} VDS{platf} Goorm"
+                    if "GOORM" in os.environ
+                    else (
+                        f"{platf} VDS{platf} Railway"
+                        if "RAILWAY" in os.environ
+                        else f"{platf} VDS"
+                    )
+                )
+            )
+        )
 
         hikka = (
             "<b><emoji document_id=5213123182378098899>💨</emoji> Premium info</b>\n"
@@ -57,11 +130,10 @@ class PremiumInfoMod(loader.Module):
             f"{platform}\n"
         )
 
-        # أرسل الصورة والمعلومات
         await message.delete()
         await self._client.send_file(
             message.peer_id,
-            user_photo,  # ارسل الصورة هنا
+            media,
             caption=hikka,
             link_preview=False,
             reply_to=reply.id if reply else None,
