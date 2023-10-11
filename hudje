@@ -1,168 +1,73 @@
-# ---------------------------------------------------------------------------------
-#  /\_/\  🌐 This module was loaded through https://t.me/hikkamods_bot
-# ( o.o )  🔐 Licensed under the GNU AGPLv3.
-#  > ^ <   ⚠️ Owner of heta.hikariatama.ru doesn't take any responsibilities or intellectual property rights regarding this script
-# ---------------------------------------------------------------------------------
-# Name: premiuminfo
-# Author: AmoreForever
-# Commands:
-# .pinfo
-# ---------------------------------------------------------------------------------
+from telethon.tl.functions.users import GetFullUserRequest
+from telethon.tl.types import Message
+from telethon.tl import types
 
-__version__ = (1, 2, 0)
-
-# ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-# ⠿⠿⠿⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⠟⠛⠛⠛⠛⠛
-# ⣶⣦⣤⣤⣤⣤⣤⣤⣬⣭⣭⣍⣉⡙⠛⠻⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⣋⣩⣭⣥⣤⣴⣶⣶⣶⣶⣶⣶⣶⣶⣶
-# ⣆⠀⠀⠀⢡⠁⠀⡀⠀⢸⠟⠻⣯⠙⠛⠷⣶⣬⡙⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⢉⣥⣶⡟⠻⣙⡉⠀⢰⡆⠀⠀⣡⠀⣧⠀⠀⠀⢨
-# ⠻⣦⠀⠀⠈⣇⣀⣧⣴⣿⣶⣶⣿⣷⠀⢀⡇⠉⠻⢶⣌⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣡⡶⠟⠉⠀⢣⠀⣿⠷⠀⠀⠀⠀⣿⡷⢀⠇⠀⠀⢠⣿
-# ⣦⡈⢧⡀⠀⠘⢮⡙⠛⠉⠀⠄⠙⢿⣀⠞⠀⠀⠀⠀⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠀⠀⠀⠀⠈⠳⣄⠉⠓⠒⠚⠋⢀⡠⠋⠀⢀⣴⣏⣿
-# ⣿⣿⣿⣛⣦⣀⠀⠙⠓⠦⠤⣤⠔⠛⠁⠀⠀⠀⠀⠀⢀⣀⣹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣤⣤⣤⣤⣤⣀⣀⣀⣀⢙⢓⣒⡒⠚⠋⢠⣤⢶⣟⣽⣿⣿
-# ⣿⣿⣿⣿⣿⣿⣷⣦⠀⠀⣴⣿⣷⣶⣶⣶⣾⡖⢰⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣶⣾⣿⣿⣶⣾⣿⣿⣿⣿⣿⣿
-# ⣿⣿⣿⣿⣿⣿⣿⣿⠀⢀⣿⣿⣿⣿⣿⣿⣿⠃⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-# ⣿⣿⣿⣿⣿⣿⣿⡏⠀⢸⣿⣿⣿⣿⣿⣿⣿⠁⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-# ⣿⣿⣿⣿⣿⣿⣿⣷⠀⢸⣿⣿⣿⣿⣿⣿⣿⠀⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-
-#                           🔒 Licensed under the GNU GPLv3
-#                    🌐 https://www.gnu.org/licenses/agpl-3.0.html
-#                            https://t.me/amorescam
-
-# meta developer: @amoremods
-# meta banner: https://raw.githubusercontent.com/AmoreForever/assets/master/Premiuminfo.jpg
-
-import os
-
-import git
-from telethon.utils import get_display_name
-
-from .. import loader, main, utils
+from .. import loader, utils
 
 
 @loader.tds
-class PremiumInfoMod(loader.Module):
-    """Premium emoji info by amore <3"""
+class InfoMod(loader.Module):
+    """Retrieve information about bot/user/chat"""
 
-    strings = {"name": "PremiumInfo"}
+    strings = {
+        "name": "Info",
+        "loading": "🕐 <b>Processing entity...</b>",
+        "not_chat": "🚫 <b>This is not a chat!</b>",
+    }
 
-    def __init__(self):
-        self.config = loader.ModuleConfig(
-            loader.ConfigValue(
-                "owner",
-                "<emoji document_id=6048540195995782913>👤</emoji>",
-                doc=lambda: "Owner custom emoji",
-            ),
-            loader.ConfigValue(
-                "version",
-                "<emoji document_id=6050744746874244036>ℹ️</emoji>",
-                doc=lambda: "Version custom emoji",
-            ),
-            loader.ConfigValue(
-                "uptime",
-                "<emoji document_id=5764783998945464490>⏲</emoji>",
-                doc=lambda: "Uptime custom emoji",
-            ),
-            loader.ConfigValue(
-                "prefix",
-                "<emoji document_id=6041858261970324774>💬</emoji>",
-                doc=lambda: "Prefix custom emoji",
-            ),
-            loader.ConfigValue(
-                "upd_r",
-                (
-                    "<emoji document_id=5776235811980709241>📊</emoji> Outdated version"
-                    " </b><code>.update</code><b>"
-                ),
-                doc=lambda: "Update required custom emoji",
-            ),
-            loader.ConfigValue(
-                "upd_to",
-                "<emoji document_id=5776414066008395465>📊</emoji> Actual version",
-                doc=lambda: "Actual required custom emoji",
-            ),
-            loader.ConfigValue(
-                "platform",
-                "<emoji document_id=5812064725516684683>🔵</emoji>",
-                doc=lambda: "Actual required custom emoji",
-            ),
-            loader.ConfigValue(
-                "Media",
-                "https://te.legra.ph/file/f7553300dbd29a619b7ea.jpg",
-                lambda: "Your custom media",
-            ),
-        )
-
-    async def client_ready(self):
-        if not (await self._client.get_me()).premium:
-            raise loader.LoadError(
-                "⭐️ This module is available only to Telegram Premium subscribers"
-            )
-        self._me = await self._client.get_me()
-
-    async def pinfocmd(self, message):
-        """Custom emoji info"""
-
+    async def userinfocmd(self, message: Message):
+        """Get object information"""
+        args = utils.get_args_raw(message)
         reply = await message.get_reply_message()
 
-        media = self.config["Media"]
-        owner = self.config["owner"]
-        vrs = self.config["version"]
-        upt = self.config["uptime"]
-        pref = self.config["prefix"]
-        upd_r = self.config["upd_r"]
-        upd_to = self.config["upd_to"]
-        platf = self.config["platform"]
+        message = await utils.answer(message, self.strings("loading"))
 
-        ver = utils.get_git_hash() or "Unknown"
         try:
-            repo = git.Repo()
-            diff = repo.git.log(["HEAD..origin/master", "--oneline"])
-            upd = f"{upd_r}" if diff else f"{upd_to}"
-        except Exception:
-            upd = ""
-
-        me = (
-            "<b><a"
-            f' href="tg://user?id={self._me.id}">{utils.escape_html(get_display_name(self._me))}</a></b>'
-        )
-        version = f'<i>{".".join(list(map(str, list(main.__version__))))}</i>'
-        build = (
-            f'<a href="https://github.com/hikariatama/Hikka/commit/{ver}">#{ver[:8]}</a>'
-        )
-        prefix = f"«<code>{utils.escape_html(self.get_prefix())}</code>»"
-        uptime = utils.formatted_uptime()
-        platform = (
-            f"{platf} Lavhost"
-            if "LAVHOST" in os.environ
-            else (
-                f"{platf} VDS{platf} Termux"
-                if "com.termux" in os.environ.get("PREFIX", "")
-                else (
-                    f"{platf} VDS{platf} Goorm"
-                    if "GOORM" in os.environ
-                    else (
-                        f"{platf} VDS{platf} Railway"
-                        if "RAILWAY" in os.environ
-                        else f"{platf} VDS"
-                    )
+            user_id = (
+                (
+                    (
+                        await self._client.get_entity(
+                            args if not args.isdigit() else int(args)
+                        )
+                    ).id
                 )
+                if args
+                else reply.sender_id
             )
+        except Exception:
+            user_id = self._tg_id
+
+        user = await self._client(GetFullUserRequest(user_id))
+
+        user_ent = user.user
+
+        photo = await self._client.download_profile_photo(user_ent.id, bytes)
+
+        user_info = (
+            f"<b><emoji document_id=6048540195995782913>👤</emoji> User:</b>\n\n"
+            f"<b>First name:</b> {user_ent.first_name or '🚫'}\n"
+            f"<b>Last name:</b> {user_ent.last_name or '🚫'}\n"
+            f"<b>Username:</b> @{user_ent.username or '🚫'}\n"
+            f"<b>About:</b> \n<code>{user.about or '🚫'}</code>\n\n"
+            f"<b>Shared Chats:</b> {user.common_chats_count}\n"
+            f'<b><a href="tg://user?id={user_ent.id}">🌐 Permalink</a></b>\n\n'
+            f"<b>ID:</b> <code>{user_ent.id}</code>\n"
         )
 
-        hikka = (
-            "<b><emoji document_id=5213123182378098899>💨</emoji> Premium info</b>\n"
-            f"<b>{owner} Owner: {me}</b>\n\n"
-            f"<b>{vrs} Version: </b>{version} {build}\n"
-            f"<b>{upd}</b>\n"
-            f"<b>{upt} Uptime: {uptime}</b>\n\n"
-            f"<b>{pref} Prefix: </b>{prefix}\n\n"
-            f"{platform}\n"
-        )
-
-        await message.delete()
-        await self._client.send_file(
-            message.peer_id,
-            media,
-            caption=hikka,
-            link_preview=False,
-            reply_to=reply.id if reply else None,
-        )
+        if photo:
+            await self._client.send_file(
+                message.peer_id,
+                photo,
+                caption=user_info,
+                link_preview=False,
+                reply_to=reply.id if reply else None,
+            )
+            if message.out:
+                await message.delete()
+        else:
+            await utils.answer(
+                message,
+                user_info,
+                reply_to=reply.id if reply else None,
+                link_preview=False,
+            )
