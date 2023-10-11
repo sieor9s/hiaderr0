@@ -38,19 +38,19 @@ class InfoMod(loader.Module):
 
         user = await self._client(GetFullUserRequest(user_id))
 
-        user_ent = user.user
+        user_ent = user
 
-        photo = await self._client.download_profile_photo(user_ent.id, bytes)
+        photo = await self._client.download_profile_photo(user_ent.user.id, bytes)
 
         user_info = (
             f"<b><emoji document_id=6048540195995782913>👤 User:</emoji></b>\n\n"
-            f"<b><emoji document_id=6048540195995782913>👤 First name:</emoji></b> {user_ent.first_name or '🚫'}\n"
-            f"<b><emoji document_id=6048540195995782913>👤 Last name:</emoji></b> {user_ent.last_name or '🚫'}\n"
-            f"<b><emoji document_id=6048540195995782913>👤 Username:</emoji></b> @{user_ent.username or '🚫'}\n"
+            f"<b><emoji document_id=6048540195995782913>👤 First name:</emoji></b> {user_ent.user.first_name or '🚫'}\n"
+            f"<b><emoji document_id=6048540195995782913>👤 Last name:</emoji></b> {user_ent.user.last_name or '🚫'}\n"
+            f"<b><emoji document_id=6048540195995782913>👤 Username:</emoji></b> @{user_ent.user.username or '🚫'}\n"
             f"<b><emoji document_id=6048540195995782913>👤 About:</emoji></b> \n<code>{user_ent.about or '🚫'}</code>\n\n"
             f"<b><emoji document_id=6048540195995782913>👤 Shared Chats:</emoji></b> {user_ent.common_chats_count}\n"
-            f'<b><emoji document_id=6048540195995782913>👤 <a href="tg://user?id={user_ent.id}">Permalink</a></emoji></b>\n\n'
-            f"<b><emoji document_id=6048540195995782913>👤 ID:</emoji></b> <code>{user_ent.id}</code>\n"
+            f'<b><emoji document_id=6048540195995782913>👤 <a href="tg://user?id={user_ent.user.id}">Permalink</a></emoji></b>\n\n'
+            f"<b><emoji document_id=6048540195995782913>👤 ID:</emoji></b> <code>{user_ent.user.id}</code>\n"
         )
 
         if photo:
