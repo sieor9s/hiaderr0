@@ -1,6 +1,5 @@
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import Message
-from telethon.tl import types
 
 from .. import loader, utils
 
@@ -44,14 +43,14 @@ class InfoMod(loader.Module):
         photo = await self._client.download_profile_photo(user_ent.id, bytes)
 
         user_info = (
-            f"<b><emoji document_id=6048540195995782913>👤</emoji> User:</b>\n\n"
-            f"<b>First name:</b> {user_ent.first_name or '🚫'}\n"
-            f"<b>Last name:</b> {user_ent.last_name or '🚫'}\n"
-            f"<b>Username:</b> @{user_ent.username or '🚫'}\n"
-            f"<b>About:</b> \n<code>{user.about or '🚫'}</code>\n\n"
-            f"<b>Shared Chats:</b> {user.common_chats_count}\n"
-            f'<b><a href="tg://user?id={user_ent.id}">🌐 Permalink</a></b>\n\n'
-            f"<b>ID:</b> <code>{user_ent.id}</code>\n"
+            f"<b><emoji document_id=6048540195995782913>👤 User:</emoji></b>\n\n"
+            f"<b><emoji document_id=6048540195995782913>👤 First name:</emoji></b> {user_ent.first_name or '🚫'}\n"
+            f"<b><emoji document_id=6048540195995782913>👤 Last name:</emoji></b> {user_ent.last_name or '🚫'}\n"
+            f"<b><emoji document_id=6048540195995782913>👤 Username:</emoji></b> @{user_ent.username or '🚫'}\n"
+            f"<b><emoji document_id=6048540195995782913>👤 About:</emoji></b> \n<code>{user_ent.about or '🚫'}</code>\n\n"
+            f"<b><emoji document_id=6048540195995782913>👤 Shared Chats:</emoji></b> {user_ent.common_chats_count}\n"
+            f'<b><emoji document_id=6048540195995782913>👤 <a href="tg://user?id={user_ent.id}">Permalink</a></emoji></b>\n\n'
+            f"<b><emoji document_id=6048540195995782913>👤 ID:</emoji></b> <code>{user_ent.id}</code>\n"
         )
 
         if photo:
