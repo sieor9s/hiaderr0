@@ -10,8 +10,8 @@ class InfoMod(loader.Module):
 
     strings = {
         "name": "Info",
-        "loading": "🕐 <b>Processing entity...</b>",
-        "not_chat": "🚫 <b>This is not a chat!</b>",
+        "loading": "<emoji document_id=5776414066008395465>🕐 <b>Processing entity...</b></emoji>",
+        "not_chat": "<emoji document_id=5776414066008395465>🚫 <b>This is not a chat!</b></emoji>",
     }
 
     async def userinfocmd(self, message: Message):
@@ -38,19 +38,19 @@ class InfoMod(loader.Module):
 
         user = await self._client(GetFullUserRequest(user_id))
 
-        user_ent = user
+        user_ent = user.users[0]
 
-        photo = await self._client.download_profile_photo(user_ent.user.id, bytes)
+        photo = await self._client.download_profile_photo(user_ent.id, bytes)
 
         user_info = (
-            f"<b><emoji document_id=6048540195995782913>👤 User:</emoji></b>\n\n"
-            f"<b><emoji document_id=6048540195995782913>👤 First name:</emoji></b> {user_ent.user.first_name or '🚫'}\n"
-            f"<b><emoji document_id=6048540195995782913>👤 Last name:</emoji></b> {user_ent.user.last_name or '🚫'}\n"
-            f"<b><emoji document_id=6048540195995782913>👤 Username:</emoji></b> @{user_ent.user.username or '🚫'}\n"
-            f"<b><emoji document_id=6048540195995782913>👤 About:</emoji></b> \n<code>{user_ent.about or '🚫'}</code>\n\n"
-            f"<b><emoji document_id=6048540195995782913>👤 Shared Chats:</emoji></b> {user_ent.common_chats_count}\n"
-            f'<b><emoji document_id=6048540195995782913>👤 <a href="tg://user?id={user_ent.user.id}">Permalink</a></emoji></b>\n\n'
-            f"<b><emoji document_id=6048540195995782913>👤 ID:</emoji></b> <code>{user_ent.user.id}</code>\n"
+            "<b><emoji document_id=5776414066008395465>👤 User:</emoji></b>\n\n"
+            f"<b><emoji document_id=5776414066008395465>First name:</emoji></b> {user_ent.first_name or '<emoji document_id=XXX>🚫'}\n"
+            f"<b><emoji document_id=5776414066008395465>Last name:</emoji></b> {user_ent.last_name or '<emoji document_id=XXX>🚫'}\n"
+            f"<b><emoji document_id=5776414066008395465>Username:</emoji></b> @{user_ent.username or '<emoji document_id=XXX>🚫'}\n"
+            f"<b><emoji document_id=5776414066008395465>About:</emoji></b> \n<code>{user.full_user.about or '<emoji document_id=XXX>🚫'}</code>\n\n"
+            f"<b><emoji document_id=5776414066008395465>Shared Chats:</emoji></b> {user.full_user.common_chats_count}\n"
+            f'<b><emoji document_id=5776414066008395465><a href="tg://user?id={user_ent.id}">🌐 Permalink</a></emoji></b>\n\n'
+            f"<b><emoji document_id=5776414066008395465>ID:</emoji></b> <code>{user_ent.id}</code>\n"
         )
 
         if photo:
